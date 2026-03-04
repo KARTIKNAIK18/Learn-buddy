@@ -1,0 +1,165 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── OpenDyslexic font (loaded from CDN) ───────────────────── */
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('https://cdn.jsdelivr.net/gh/antijingoist/opendyslexic@master/compiled/OpenDyslexic-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Accessibility CSS variables (controlled by AccessibilityContext) ── */
+:root {
+  --a11y-font:           'Lexend', 'ui-sans-serif', 'system-ui', sans-serif;
+  --a11y-font-size:      1.0625rem;
+  --a11y-letter-spacing: 0.01em;
+  --a11y-word-spacing:   4px;
+  --a11y-line-height:    1.9;
+  --a11y-bg:             transparent;
+}
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  /* ── Dyslexia-friendly base typography ────────────────── */
+  body {
+    font-family: var(--a11y-font);
+    background-color: #e9edf5;
+    color: #1e293b;
+    -webkit-font-smoothing: antialiased;
+    font-size: var(--a11y-font-size);
+    line-height: var(--a11y-line-height);
+    letter-spacing: var(--a11y-letter-spacing);
+    word-spacing: var(--a11y-word-spacing);
+  }
+
+  /* Left-align everything — justified text is harder for dyslexic readers */
+  p, li, td, th { text-align: left; }
+
+  /* Avoid italics — harder to read for dyslexic users */
+  em, i { font-style: normal; font-weight: 500; }
+
+  /* Bigger, cleaner headings */
+  h1, h2, h3 {
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    font-weight: 700;
+  }
+  h1 { font-size: 1.625rem; }
+  h2 { font-size: 1.375rem; }
+  h3 { font-size: 1.125rem; }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+  ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+}
+
+@layer components {
+
+  /* ── Buttons ─────────────────────────────────────────── */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-semibold rounded-xl
+           transition-all duration-200 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed select-none;
+  }
+  /* Buttons — larger targets help motor-impaired users */
+  .btn-primary {
+    @apply btn bg-brand-600 hover:bg-brand-700 text-white px-6 py-3 text-base
+           shadow-sm hover:shadow-md focus:ring-2 focus:ring-brand-400 focus:ring-offset-2 rounded-xl;
+  }
+  .btn-ghost {
+    @apply btn text-slate-600 hover:bg-slate-100 hover:text-slate-900 px-5 py-2.5 text-base;
+  }
+  .btn-danger {
+    @apply btn bg-red-500 hover:bg-red-600 text-white px-5 py-2.5 text-sm font-semibold shadow-sm rounded-xl;
+  }
+  .btn-success {
+    @apply btn bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2.5 text-sm font-semibold shadow-sm rounded-xl;
+  }
+  .btn-outline {
+    @apply btn border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50
+           text-slate-700 px-5 py-2.5 text-sm font-semibold shadow-sm rounded-xl;
+  }
+  .btn-sm { @apply px-3.5 py-2 text-sm; }
+  .btn-lg { @apply px-7 py-3.5 text-lg; }
+
+  /* ── Inputs — larger text & padding, clear focus ring ── */
+  .input {
+    @apply w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-base
+           text-slate-900 placeholder-slate-400 shadow-sm
+           focus:border-brand-500 focus:ring-2 focus:ring-brand-100 focus:outline-none
+           transition-all duration-200;
+  }
+  .input-label { @apply block text-base font-semibold text-slate-700 mb-1.5; }
+
+  /* ── Cards ───────────────────────────────────────────── */
+  .card {
+    @apply bg-white/80 rounded-2xl border border-slate-200/70 p-6;
+    box-shadow: 0 2px 10px rgba(15,23,42,0.08), 0 1px 3px rgba(15,23,42,0.05);
+    backdrop-filter: blur(2px);
+  }
+  .card-hover {
+    @apply card cursor-pointer;
+    transition: all 0.2s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(15,23,42,0.13);
+    background-color: rgba(255,255,255,0.95);
+  }
+
+  /* ── Typography ──────────────────────────────────────── */
+  .page-heading { @apply text-2xl font-bold text-slate-900 tracking-tight; }
+  .page-sub     { @apply text-sm text-slate-500 mt-1; }
+
+  /* ── Badges ──────────────────────────────────────────── */
+  .badge         { @apply inline-flex items-center px-3 py-0.5 rounded-full text-xs font-semibold; }
+  .badge-pending { @apply badge bg-amber-100 text-amber-700; }
+  .badge-active  { @apply badge bg-emerald-100 text-emerald-700; }
+  .badge-dropped { @apply badge bg-red-100 text-red-700; }
+  .badge-blue    { @apply badge bg-blue-100 text-blue-700; }
+  .badge-violet  { @apply badge bg-violet-100 text-violet-700; }
+  .badge-gray    { @apply badge bg-slate-100 text-slate-500; }
+
+  /* ── Alerts ──────────────────────────────────────────── */
+  .alert-error   { @apply flex items-start gap-2.5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700; }
+  .alert-success { @apply flex items-start gap-2.5 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700; }
+  .alert-info    { @apply flex items-start gap-2.5 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-700; }
+
+  /* ── Tables — larger row height, NO uppercase headers ── */
+  .tbl-wrap { @apply overflow-x-auto rounded-2xl border border-slate-200; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  .tbl      { @apply min-w-full text-base; }
+  .tbl-th   { @apply px-5 py-4 text-left text-sm font-bold text-slate-600 bg-slate-50/80; }
+  .tbl-td   { @apply px-5 py-4 text-slate-700 border-t border-slate-100; }
+  .tbl-row  { @apply bg-white hover:bg-brand-50/60 transition-colors; }
+
+  /* ── Misc ────────────────────────────────────────────── */
+  .empty-state { @apply flex flex-col items-center justify-center py-20 text-center; }
+  .spinner { height: 2rem; width: 2rem; border-radius: 9999px; border: 3px solid #e2e8f0; border-top-color: #4f46e5; animation: lb-spin 0.75s linear infinite; }
+  .spinner-sm { height: 1.125rem; width: 1.125rem; border-radius: 9999px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; animation: lb-spin 0.75s linear infinite; }
+
+  @keyframes lb-spin     { to { transform: rotate(360deg); } }
+  @keyframes lb-fadeIn   { from { opacity: 0; }                              to { opacity: 1; } }
+  @keyframes lb-slideUp  { from { opacity: 0; transform: translateY(8px); }  to { opacity: 1; transform: translateY(0); } }
+  @keyframes lb-slideUp2 { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes lb-float    { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  @keyframes lb-floatAlt { 0%,100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+  @keyframes lb-pulse-soft { 0%,100% { opacity: 0.35; transform: scale(1); } 50% { opacity: 0.55; transform: scale(1.08); } }
+  .animate-fade-in    { animation: lb-fadeIn   0.25s ease-out; }
+  .animate-slide-up   { animation: lb-slideUp  0.3s  ease-out; }
+  .animate-slide-up2  { animation: lb-slideUp2 0.5s  cubic-bezier(.16,1,.3,1) both; }
+  .animate-float      { animation: lb-float    4s ease-in-out infinite; }
+  .animate-float-alt  { animation: lb-floatAlt 5s ease-in-out infinite; }
+  .animate-float-slow { animation: lb-float    7s ease-in-out infinite; }
+  .animate-pulse-soft { animation: lb-pulse-soft 3s ease-in-out infinite; }
+}
+
+/* ── Confetti celebration ───────────────────────────────────── */
+@keyframes confettiFall {
+  0%   { transform: translateY(0) rotate(0deg);    opacity: 1; }
+  80%  { opacity: 1; }
+  100% { transform: translateY(106vh) rotate(720deg); opacity: 0; }
+}
