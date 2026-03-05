@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { signupUser } from '../../api/auth';
 import { useAuth } from '../../context/AuthContext';
 import { User, Mail, Lock, Shield, Hash, UserPlus, GraduationCap, Users, BookOpen } from 'lucide-react';
+import applicationImage from '../../images/application.png';
 
 const ROLES = [
   { value: 'teacher', label: 'Teacher',  desc: 'Create classrooms & manage enrollments', Icon: GraduationCap },
@@ -73,8 +74,13 @@ const SignupPage = () => {
     <div className="min-h-screen flex">
       {/* ── Left panel — branding ───────────────────────────────────── */}
       <div className="hidden lg:flex lg:w-5/12 bg-navy-900 flex-col items-center justify-center px-12 py-16">
-        <div className="w-14 h-14 rounded-2xl bg-brand-600 flex items-center justify-center mb-6 shadow-lg">
-          <span className="text-white font-bold text-2xl">LB</span>
+        <div className="w-40 h-40 rounded-3xl bg-white flex items-center justify-center mb-6 shadow-2xl overflow-hidden border-4 border-brand-500/20 p-2">
+          <img 
+            src={applicationImage} 
+            alt="Learn Buddy" 
+            className="w-full h-full object-contain"
+            style={{ imageRendering: 'crisp-edges' }}
+          />
         </div>
         <h1 className="text-3xl font-bold text-white tracking-tight text-center mb-3">
           Join Learn-Buddy
@@ -106,83 +112,87 @@ const SignupPage = () => {
       </div>
 
       {/* ── Right panel — form ──────────────────────────────────────── */}
-      <div className="flex-1 flex items-center justify-center px-6 py-12 overflow-y-auto relative overflow-hidden"
+      <div className="flex-1 flex items-center justify-center px-6 py-4 relative overflow-hidden"
            style={{background: 'var(--color-surface, #f1f5f9)'}}>
         {/* Animated background shapes */}
         <div className="animate-float-alt absolute -top-20  -right-20  w-72 h-72 rounded-full bg-indigo-100/60  blur-3xl pointer-events-none" />
         <div className="animate-float     absolute -bottom-20 -left-20  w-80 h-80 rounded-full bg-violet-100/50 blur-3xl pointer-events-none" />
         <div className="animate-float-slow absolute top-1/3  right-1/4  w-40 h-40 rounded-full bg-sky-100/40    blur-2xl pointer-events-none" />
 
-        <div className="relative w-full max-w-sm animate-slide-up2">
+        <div className="relative w-full max-w-lg animate-slide-up2 px-4">
           {/* Mobile logo */}
-          <div className="flex items-center gap-3 mb-8 lg:hidden">
-            <div className="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center shadow-md">
-              <span className="text-white font-bold text-base">LB</span>
+          <div className="flex items-center gap-3 mb-5 lg:hidden">
+            <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center shadow-md overflow-hidden border-2 border-brand-500/20 p-1">
+              <img 
+                src={applicationImage} 
+                alt="Learn Buddy" 
+                className="w-full h-full object-contain"
+                style={{ imageRendering: 'crisp-edges' }}
+              />
             </div>
             <span className="text-xl font-bold text-slate-900">Learn-Buddy</span>
           </div>
 
-          <h2 className="text-2xl font-bold text-slate-900 mb-1">Create account</h2>
-          <p className="text-slate-500 text-sm mb-6">
-            Already have an account?{' '}
-            <Link to="/login" className="text-brand-600 hover:text-brand-700 font-semibold transition-colors">
-              Sign in →
-            </Link>
-          </p>
+          {/* Signup Card Container */}
+          <div className="bg-white rounded-2xl shadow-2xl p-5 md:p-6 border border-slate-200/60 hover:shadow-3xl transition-shadow duration-300">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-1 text-center">Create account</h2>
+            <p className="text-slate-600 text-sm md:text-base mb-4 text-center">
+              Join us and start your learning journey
+            </p>
 
-          {error   && <div className="alert-error mb-5 animate-slide-up2">{error}</div>}
-          {success && <div className="alert-success mb-5 animate-slide-up2">{success}</div>}
+            {error   && <div className="alert-error mb-4 animate-slide-up2">{error}</div>}
+            {success && <div className="alert-success mb-4 animate-slide-up2">{success}</div>}
 
-          <form onSubmit={handleSubmit} noValidate className="space-y-4">
+            <form onSubmit={handleSubmit} noValidate className="space-y-3">
             {/* Name */}
             <div className="animate-slide-up2" style={{animationDelay:'0.05s'}}>
-              <label className="input-label" htmlFor="name">Full Name</label>
-              <div className="relative">
-                <User size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+              <label className="input-label text-sm font-semibold text-slate-700" htmlFor="name">Full Name</label>
+              <div className="relative mt-1">
+                <User size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
                 <input id="name" name="name" type="text" autoComplete="name" required
-                  className="input pl-9 transition-all duration-200 focus:shadow-[0_0_0_3px_rgba(99,102,241,0.15)]"
+                  className="input pl-11 pr-4 py-3 w-full border-2 border-slate-200 rounded-xl focus:border-brand-500 focus:ring-4 focus:ring-brand-100 transition-all duration-200 outline-none"
                   placeholder="Jane Smith" value={form.name} onChange={handleChange} />
               </div>
             </div>
 
             {/* Email */}
             <div className="animate-slide-up2" style={{animationDelay:'0.09s'}}>
-              <label className="input-label" htmlFor="email">Email Address</label>
-              <div className="relative">
-                <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+              <label className="input-label text-sm font-semibold text-slate-700" htmlFor="email">Email Address</label>
+              <div className="relative mt-1">
+                <Mail size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
                 <input id="email" name="email" type="email" autoComplete="email" required
-                  className="input pl-9 transition-all duration-200 focus:shadow-[0_0_0_3px_rgba(99,102,241,0.15)]"
+                  className="input pl-11 pr-4 py-3 w-full border-2 border-slate-200 rounded-xl focus:border-brand-500 focus:ring-4 focus:ring-brand-100 transition-all duration-200 outline-none"
                   placeholder="you@example.com" value={form.email} onChange={handleChange} />
               </div>
             </div>
 
             {/* Password */}
             <div className="animate-slide-up2" style={{animationDelay:'0.13s'}}>
-              <label className="input-label" htmlFor="password">Password</label>
-              <div className="relative">
-                <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+              <label className="input-label text-sm font-semibold text-slate-700" htmlFor="password">Password</label>
+              <div className="relative mt-1">
+                <Lock size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
                 <input id="password" name="password" type="password" autoComplete="new-password" required
-                  className="input pl-9 transition-all duration-200 focus:shadow-[0_0_0_3px_rgba(99,102,241,0.15)]"
+                  className="input pl-11 pr-4 py-3 w-full border-2 border-slate-200 rounded-xl focus:border-brand-500 focus:ring-4 focus:ring-brand-100 transition-all duration-200 outline-none"
                   placeholder="Min. 6 characters" value={form.password} onChange={handleChange} />
               </div>
             </div>
 
             {/* Confirm Password */}
             <div className="animate-slide-up2" style={{animationDelay:'0.17s'}}>
-              <label className="input-label" htmlFor="confirmPassword">Confirm Password</label>
-              <div className="relative">
-                <Shield size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+              <label className="input-label text-sm font-semibold text-slate-700" htmlFor="confirmPassword">Confirm Password</label>
+              <div className="relative mt-1">
+                <Shield size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
                 <input id="confirmPassword" name="confirmPassword" type="password" autoComplete="new-password" required
-                  className="input pl-9 transition-all duration-200 focus:shadow-[0_0_0_3px_rgba(99,102,241,0.15)]"
+                  className="input pl-11 pr-4 py-3 w-full border-2 border-slate-200 rounded-xl focus:border-brand-500 focus:ring-4 focus:ring-brand-100 transition-all duration-200 outline-none"
                   placeholder="Repeat password" value={form.confirmPassword} onChange={handleChange} />
               </div>
             </div>
 
             {/* Role */}
             <div className="animate-slide-up2" style={{animationDelay:'0.21s'}}>
-              <label className="input-label" htmlFor="role">Role</label>
+              <label className="input-label text-sm font-semibold text-slate-700" htmlFor="role">Role</label>
               <select id="role" name="role" required
-                className="input transition-all duration-200 focus:shadow-[0_0_0_3px_rgba(99,102,241,0.15)]"
+                className="input mt-1 py-3 w-full border-2 border-slate-200 rounded-xl focus:border-brand-500 focus:ring-4 focus:ring-brand-100 transition-all duration-200 outline-none"
                 value={form.role} onChange={handleChange}>
                 {ROLES.map(({ value, label }) => (
                   <option key={value} value={value}>{label}</option>
@@ -192,30 +202,44 @@ const SignupPage = () => {
 
             {/* Age (optional) */}
             <div className="animate-slide-up2" style={{animationDelay:'0.25s'}}>
-              <label className="input-label" htmlFor="age">
+              <label className="input-label text-sm font-semibold text-slate-700" htmlFor="age">
                 Age <span className="text-slate-400 font-normal">(optional)</span>
               </label>
-              <div className="relative">
-                <Hash size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+              <div className="relative mt-1">
+                <Hash size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
                 <input id="age" name="age" type="number" min="5" max="100"
-                  className="input pl-9 transition-all duration-200 focus:shadow-[0_0_0_3px_rgba(99,102,241,0.15)]"
+                  className="input pl-11 pr-4 py-3 w-full border-2 border-slate-200 rounded-xl focus:border-brand-500 focus:ring-4 focus:ring-brand-100 transition-all duration-200 outline-none"
                   placeholder="e.g. 25" value={form.age} onChange={handleChange} />
               </div>
             </div>
 
             <div className="animate-slide-up2" style={{animationDelay:'0.29s'}}>
               <button type="submit" disabled={loading}
-                className="btn-primary w-full py-3 text-base mt-2 flex items-center justify-center gap-2
-                           hover:scale-[1.02] active:scale-[0.98] transition-transform duration-150
-                           shadow-md hover:shadow-lg hover:shadow-brand-500/25">
+                className="btn-primary w-full py-3.5 text-base font-semibold mt-2 flex items-center justify-center gap-2
+                           hover:scale-[1.02] active:scale-[0.98] transition-all duration-200
+                           shadow-lg hover:shadow-xl hover:shadow-brand-500/30 rounded-xl">
                 {loading ? (
                   <><span className="spinner-sm" /> Creating account…</>
                 ) : (
-                  <><UserPlus size={17} /> Create Account</>
+                  <><UserPlus size={18} /> Create Account</>
                 )}
               </button>
             </div>
           </form>
+
+          {/* Login Link Section */}
+          <div className="mt-4 pt-4 border-t border-slate-200">
+            <p className="text-center text-base text-slate-700">
+              Already have an account?{' '}
+              <Link 
+                to="/login" 
+                className="text-brand-600 hover:text-brand-700 font-bold underline decoration-2 underline-offset-4 hover:underline-offset-2 transition-all duration-200"
+              >
+                Sign in →
+              </Link>
+            </p>
+          </div>
+        </div>
         </div>
       </div>
     </div>

@@ -28,6 +28,11 @@ app.include_router(vocab.router)
 
 @app.get("/")
 def main():
-    return {"message": "Hello World"}
+    return {"message": "Backend is running!"}
+
+@app.get("/health")
+def main():
+    return {"message": "Backend is healthy!"}
+
 
 
