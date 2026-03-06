@@ -29,11 +29,27 @@ def add_student(user: schema.UserSignup, db:Session = Depends(get_db)):
     hased_password = password_hash.hash_pass(user.password)
     user.password = hased_password
 
-
-    new_std = models.Usersbase(**user.model_dump())
+    if user.role == "student" and user.age is None:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Age is required for students")
+    user_new= user.model_dump(exclude={"age"})
+    new_std = models.Usersbase(**user_new)
     db.add(new_std)
     db.commit()
     db.refresh(new_std)
+
+
+    if user.role == "student":
+        std_data = models.Student(
+        id = new_std.id,
+        Studentname = user.name,
+        RollNo = 1000+ new_std.id,
+        age = user.age,
+        parent_id = None
+        )
+
+        db.add(std_data)
+        db.commit()
+        db.refresh(std_data)
 
     return new_std
 

@@ -22,6 +22,7 @@ class UserSignup(BaseModel):
     email: EmailStr
     password: str
     role: Role
+    age: Optional[int] = None
 
 
 class Teacher_Login(BaseModel):

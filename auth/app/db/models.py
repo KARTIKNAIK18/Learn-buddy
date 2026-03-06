@@ -31,7 +31,7 @@ class Student(Base):
     # password = Column(String, nullable=False)
     RollNo = Column(Integer, nullable=False)
     age = Column(Integer, nullable=False)
-    parent_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    parent_id = Column(Integer, ForeignKey("users.id"), nullable=True)
 
 
 class teacher(Base):
