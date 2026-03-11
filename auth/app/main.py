@@ -3,7 +3,7 @@ from app.db.orm import engine
 import app.db.models as models
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.routers import users,parents,teacher,classroom,student,tts,points
-from app.api.routers import vocab
+from app.api.routers import vocab, recommendations
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -25,6 +25,7 @@ app.include_router(teacher.router)
 app.include_router(tts.router)
 app.include_router(points.router)
 app.include_router(vocab.router)
+app.include_router(recommendations.router)
 
 @app.get("/")
 def main():

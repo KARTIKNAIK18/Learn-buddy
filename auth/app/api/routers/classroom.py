@@ -80,7 +80,6 @@ def delete_content(
     if not content:
         raise HTTPException(status_code=404, detail="Content not found")
 
-    # Verify this classroom belongs to the requesting teacher
     classroom = db.query(models.Classroom).filter(
         models.Classroom.id == classroom_id,
         models.Classroom.teacher_id == current_user["id"],

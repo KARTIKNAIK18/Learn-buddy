@@ -31,13 +31,16 @@ def add_vocab_word(
             raise HTTPException(status_code=403, detail="Not your classroom")
 
     word = VocabWord(
-        teacher_id  = current_user["id"],
+        teacher_id   = current_user["id"],
         classroom_id = body.classroom_id,
-        category    = body.category.strip(),
-        en          = body.en.strip(),
-        kn          = (body.kn or "").strip(),
-        tul         = (body.tul or "").strip(),
+        category     = body.category.strip(),
+        en           = body.en.strip(),
+        kn           = (body.kn or "").strip() or None,
+        tul          = (body.tul or "").strip() or None,
+        image_url    = body.image_url if body.image_url else None,
+        audio_url    = body.audio_url if body.audio_url else None,
     )
+
     db.add(word)
     db.commit()
     db.refresh(word)

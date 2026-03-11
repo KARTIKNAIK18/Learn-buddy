@@ -111,4 +111,6 @@ class VocabWord(Base):
     en          = Column(String, nullable=False)   # English word
     kn          = Column(String, nullable=True)    # Kannada translation
     tul         = Column(String, nullable=True)    # Tulu translation
+    image_url   = Column(String, nullable=True)    # Cloudinary image URL
+    audio_url   = Column(String, nullable=True)    # Cloudinary audio URL for sound effects
     created_at  = Column(DateTime(timezone=True), server_default=text('now()'))
