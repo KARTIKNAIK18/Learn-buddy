@@ -166,7 +166,7 @@ const WritingHelper = () => {
       <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
-            ✍️ Writing Helper
+             Writing Helper
           </h1>
           <p className="text-slate-500 text-sm mt-1">
             Write anything and get instant feedback on spelling, grammar, and style.
@@ -388,6 +388,8 @@ const WritingHelper = () => {
           </div>
 
           {/* ── Writing tips ── */}
+
+        </div>
           <div className="card">
             <h2 className="font-semibold text-slate-700 text-sm mb-3 flex items-center gap-2">
               <Lightbulb size={15} className="text-amber-400" /> Writing Tips
@@ -403,8 +405,6 @@ const WritingHelper = () => {
               ))}
             </ul>
           </div>
-
-        </div>
       </div>
     </DashboardLayout>
   );

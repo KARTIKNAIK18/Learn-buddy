@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import DashboardLayout from '../../components/layout/DashboardLayout';
 import StatCard from '../../components/common/StatCard';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
+import RecommendedActivities from '../../components/student/RecommendedActivities';
 import { getMyClassrooms, getMyPoints, getMyContent, getMyProfile } from '../../api/student';
 import { BookMarked, School, Star, Zap, ArrowRight, Gamepad2, Languages, PenLine, BookOpen, User, Hash, Trophy, Sparkles } from 'lucide-react';
 
@@ -103,47 +104,161 @@ const StudentDashboard = () => {
             </div>
 
             {/* Level Banner */}
-            <div className={`card border ${levelColors.border} ${levelColors.bg} mb-7`}>
-              <div className="flex items-center justify-between flex-wrap gap-3">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1 flex items-center gap-1.5">
-                    <Trophy size={12} /> Current Level
-                  </p>
-                  <p className={`text-3xl font-extrabold ${levelColors.text}`}>{points ? level : '--'}</p>
-                  {points && nextThreshold ? (
-                    <p className="text-sm text-slate-500 mt-1 font-medium">{totalPoints} / {nextThreshold} pts to next level</p>
-                  ) : points ? (
-                    <p className="text-sm text-slate-500 mt-1 flex items-center gap-1"><Star size={12} className="text-amber-400" /> Highest level reached!</p>
-                  ) : (
-                    <p className="text-sm text-slate-500 mt-1">Complete activities to earn points</p>
-                  )}
-                </div>
-                <div className="flex-1 min-w-[8rem] max-w-xs">
-                  <div className="w-full bg-white rounded-full h-4 border border-slate-200 overflow-hidden shadow-inner">
-                    <div
-                      className={`h-4 rounded-full transition-all duration-700 ${progressBarColor}`}
-                      style={{ width: `${points ? progressPct : 0}%` }}
-                    />
-                  </div>
-                  <p className="text-xs text-slate-400 mt-1 text-right font-semibold">{points ? progressPct : 0}%</p>
-                </div>
+            <div className={`card border ${levelColors.border} ${levelColors.bg} mb-7 overflow-hidden relative`}>
+              {/* Decorative Background Pattern */}
+              <div className="absolute top-0 right-0 opacity-5">
+                <Trophy size={120} className={levelColors.text} />
               </div>
 
-              {points?.breakdown?.length > 0 && (
-                <div className="mt-4 pt-4 border-t border-white/60">
-                  <p className="text-xs font-bold text-slate-600 mb-2.5">Activity Breakdown</p>
-                  <div className="flex flex-wrap gap-2">
-                    {points.breakdown.map((b) => (
-                      <div key={b.activity_name}
-                        className="bg-white rounded-xl px-3 py-1.5 text-xs text-slate-700 border border-slate-200 shadow-sm">
-                        <span className="font-bold capitalize">{b.activity_name.replace(/-/g, ' ')}</span>
-                        <span className="ml-1.5 text-slate-400">×{b.times_completed}</span>
-                        <span className="ml-1.5 font-extrabold text-brand-600">+{b.points_earned}pts</span>
-                      </div>
-                    ))}
+              <div className="relative z-10">
+                <div className="flex items-center justify-between flex-wrap gap-4 mb-4">
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1 flex items-center gap-1.5">
+                      <Trophy size={12} /> Current Level
+                    </p>
+                    <p className={`text-4xl font-extrabold ${levelColors.text} flex items-center gap-2`}>
+                      {points ? level : '--'}
+                      {points && <Sparkles size={24} className="text-amber-400 animate-pulse" />}
+                    </p>
+                    {points && nextThreshold ? (
+                      <p className="text-sm text-slate-500 mt-2 font-medium flex items-center gap-1.5">
+                        <Zap size={14} className="text-amber-500" />
+                        <span className="font-bold text-slate-700">{nextThreshold - totalPoints} points</span> to next level
+                      </p>
+                    ) : points ? (
+                      <p className="text-sm text-slate-500 mt-2 flex items-center gap-1">
+                        <Star size={14} className="text-amber-400" /> 
+                        <span className="font-bold">Maximum level reached!</span>
+                      </p>
+                    ) : (
+                      <p className="text-sm text-slate-500 mt-2">Complete activities to earn points</p>
+                    )}
                   </div>
+
+                  {/* Stats Mini Cards */}
+                  {points && (
+                    <div className="flex gap-3">
+                      <div className="bg-white/80 backdrop-blur-sm rounded-xl px-4 py-2.5 border border-slate-200 shadow-sm min-w-[100px]">
+                        <p className="text-xs text-slate-500 font-medium">Total Points</p>
+                        <p className="text-2xl font-extrabold text-slate-900 flex items-center gap-1">
+                          <Star size={18} className="text-amber-500" />
+                          {totalPoints}
+                        </p>
+                      </div>
+                      <div className="bg-white/80 backdrop-blur-sm rounded-xl px-4 py-2.5 border border-slate-200 shadow-sm min-w-[100px]">
+                        <p className="text-xs text-slate-500 font-medium">Activities</p>
+                        <p className="text-2xl font-extrabold text-slate-900 flex items-center gap-1">
+                          <Zap size={18} className="text-blue-500" />
+                          {activitiesDone}
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
+
+                {/* Enhanced Progress Bar */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-xs font-semibold">
+                    <span className="text-slate-600">Progress to {level === 'Champion' ? 'Maximum' : Object.keys(LEVEL_NEXT)[Object.keys(LEVEL_NEXT).indexOf(level) + 1]}</span>
+                    <span className={`${levelColors.text} text-sm`}>{points ? progressPct : 0}%</span>
+                  </div>
+                  
+                  <div className="relative">
+                    {/* Progress Bar Container */}
+                    <div className="w-full bg-white rounded-full h-6 border-2 border-slate-200 overflow-hidden shadow-inner relative">
+                      {/* Animated Gradient Progress */}
+                      <div
+                        className={`h-6 rounded-full transition-all duration-1000 ease-out relative overflow-hidden ${progressBarColor}`}
+                        style={{ width: `${points ? progressPct : 0}%` }}
+                      >
+                        {/* Shine Effect */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" 
+                             style={{ backgroundSize: '200% 100%' }} />
+                      </div>
+                      
+                      {/* Points Label Inside Bar */}
+                      {points && progressPct > 15 && (
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-white z-10 flex items-center gap-1">
+                          <Star size={12} fill="white" />
+                          {totalPoints} pts
+                        </div>
+                      )}
+                      
+                      {/* Target Label */}
+                      {points && nextThreshold && (
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500 z-10">
+                          {nextThreshold}
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* Milestone Markers */}
+                    {points && nextThreshold && (
+                      <div className="absolute top-0 w-full h-6 pointer-events-none">
+                        {[25, 50, 75].map((milestone) => {
+                          const milestonePoints = (nextThreshold * milestone) / 100;
+                          const isPassed = totalPoints >= milestonePoints;
+                          return (
+                            <div
+                              key={milestone}
+                              className="absolute top-0 h-full flex items-center"
+                              style={{ left: `${milestone}%` }}
+                            >
+                              <div className={`w-0.5 h-full ${isPassed ? 'bg-white/50' : 'bg-slate-300'}`} />
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Level Milestones */}
+                  {points && (
+                    <div className="flex justify-between text-xs pt-1">
+                      {Object.entries(LEVEL_NEXT).map(([lvl, threshold]) => {
+                        const isCurrentOrPassed = threshold === null || (totalPoints >= threshold);
+                        const isCurrent = lvl === level;
+                        return (
+                          <div key={lvl} className={`text-center ${isCurrent ? 'font-bold' : ''}`}>
+                            <div className={`w-2 h-2 rounded-full mx-auto mb-1 ${
+                              isCurrentOrPassed 
+                                ? levelColors.text.replace('text-', 'bg-')
+                                : 'bg-slate-300'
+                            }`} />
+                            <span className={isCurrent ? levelColors.text : 'text-slate-400'}>
+                              {lvl}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+
+                {/* Activity Breakdown */}
+                {points?.breakdown?.length > 0 && (
+                  <div className="mt-5 pt-4 border-t border-white/60">
+                    <p className="text-xs font-bold text-slate-600 mb-3 flex items-center gap-1.5">
+                      <Gamepad2 size={14} /> Activity Breakdown
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {points.breakdown.map((b) => (
+                        <div key={b.activity_name}
+                          className="bg-white rounded-xl px-3 py-2 text-xs text-slate-700 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                          <span className="font-bold capitalize">{b.activity_name.replace(/-/g, ' ')}</span>
+                          <span className="ml-1.5 text-slate-400">×{b.times_completed}</span>
+                          <span className="ml-1.5 font-extrabold text-brand-600">+{b.points_earned}pts</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Recommended Activities */}
+            <div className="mb-7">
+              <RecommendedActivities />
             </div>
 
             {/* My Classrooms */}

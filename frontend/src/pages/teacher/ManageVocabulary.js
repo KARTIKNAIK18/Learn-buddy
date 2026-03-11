@@ -3,13 +3,14 @@ import DashboardLayout from '../../components/layout/DashboardLayout';
 import LoadingSpinner  from '../../components/common/LoadingSpinner';
 import { getMyClassrooms } from '../../api/teacher';
 import { addVocabWord, getMyVocabWords, deleteVocabWord } from '../../api/teacher';
+import { uploadToCloudinary } from '../../api/cloudinary';
 import {
   Languages, PlusCircle, Trash2, BookOpen, Globe,
-  CheckCircle2, AlertCircle, ChevronDown, ChevronUp,
+  CheckCircle2, AlertCircle, ChevronDown, ChevronUp, Upload, Image, Volume2,
 } from 'lucide-react';
 
 const DEFAULT_CATEGORIES = [
-  'Greetings', 'Animals', 'Colors', 'Numbers', 'Food', 'Body Parts',
+  'Alphabets', 'Animals', 'Colors', 'Numbers', 'Food', 'Body Parts',
   'Places', 'Actions', 'Objects', 'Family', 'Weather', 'Transport', 'Custom',
 ];
 
@@ -25,6 +26,13 @@ const ManageVocabulary = () => {
   const [deletingId, setDeletingId] = useState(null);
   const [filter,     setFilter]     = useState('All');
   const [showForm,   setShowForm]   = useState(true);
+  
+  // File upload states
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedAudio, setSelectedAudio] = useState(null);
+  const [imageProgress, setImageProgress] = useState(0);
+  const [audioProgress, setAudioProgress] = useState(0);
+  const [uploading,     setUploading]     = useState(false);
 
   // Grouped view
   const categories = ['All', ...Array.from(new Set(words.map((w) => w.category))).sort()];
@@ -50,26 +58,53 @@ const ManageVocabulary = () => {
   const handleAdd = async (e) => {
     e.preventDefault();
     if (!form.en.trim()) return showToast('error', 'English word is required.');
+    
     setSaving(true);
+    setUploading(true);
+    
     try {
+      let imageUrl = null;
+      let audioUrl = null;
+      
+      // Upload image if selected
+      if (selectedImage) {
+        setImageProgress(0);
+        imageUrl = await uploadToCloudinary(selectedImage, setImageProgress);
+      }
+      
+      // Upload audio if selected
+      if (selectedAudio) {
+        setAudioProgress(0);
+        audioUrl = await uploadToCloudinary(selectedAudio, setAudioProgress);
+      }
+      
+      setUploading(false);
+      
       const category = form.category === 'Custom' && form.customCategory.trim()
         ? form.customCategory.trim()
         : form.category;
       const payload = {
         category,
         en:           form.en.trim(),
-        kn:           form.kn.trim(),
-        tul:          form.tul.trim(),
+        kn:           form.kn.trim() || null,
+        tul:          form.tul.trim() || null,
         classroom_id: form.classroom_id ? Number(form.classroom_id) : null,
+        image_url:    imageUrl,
+        audio_url:    audioUrl,
       };
       const res = await addVocabWord(payload);
       setWords((w) => [...w, res.data]);
       setForm({ ...EMPTY_FORM, category: form.category });
+      setSelectedImage(null);
+      setSelectedAudio(null);
+      setImageProgress(0);
+      setAudioProgress(0);
       showToast('success', `"${res.data.en}" added!`);
     } catch (err) {
-      showToast('error', err?.response?.data?.detail || 'Failed to add word.');
+      showToast('error', err?.response?.data?.detail || err.message || 'Failed to add word.');
     } finally {
       setSaving(false);
+      setUploading(false);
     }
   };
 
@@ -206,15 +241,72 @@ const ManageVocabulary = () => {
                   />
                 </div>
 
+                {/* Image Upload */}
+                <div>
+                  <label className="input-label">
+                    <span className="inline-flex items-center gap-1"><Image size={14} /> Image</span>
+                    <span className="text-xs font-normal text-slate-400 ml-2">GIF, JPG, PNG, or MP4</span>
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*,video/*"
+                    onChange={(e) => setSelectedImage(e.target.files[0])}
+                    className="input text-sm"
+                  />
+                  {selectedImage && (
+                    <p className="text-xs text-green-600 mt-1">✓ {selectedImage.name}</p>
+                  )}
+                  {uploading && imageProgress > 0 && (
+                    <div className="mt-2">
+                      <div className="w-full bg-slate-200 rounded-full h-2">
+                        <div 
+                          className="bg-indigo-600 h-2 rounded-full transition-all" 
+                          style={{ width: `${imageProgress}%` }}
+                        />
+                      </div>
+                      <p className="text-xs text-slate-500 mt-1">Uploading image: {imageProgress}%</p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Audio Upload */}
+                <div>
+                  <label className="input-label">
+                    <span className="inline-flex items-center gap-1"><Volume2 size={14} /> Sound Effect</span>
+                    <span className="text-xs font-normal text-slate-400 ml-2">MP3 or WAV</span>
+                  </label>
+                  <input
+                    type="file"
+                    accept="audio/*"
+                    onChange={(e) => setSelectedAudio(e.target.files[0])}
+                    className="input text-sm"
+                  />
+                  {selectedAudio && (
+                    <p className="text-xs text-green-600 mt-1">✓ {selectedAudio.name}</p>
+                  )}
+                  {uploading && audioProgress > 0 && (
+                    <div className="mt-2">
+                      <div className="w-full bg-slate-200 rounded-full h-2">
+                        <div 
+                          className="bg-green-600 h-2 rounded-full transition-all" 
+                          style={{ width: `${audioProgress}%` }}
+                        />
+                      </div>
+                      <p className="text-xs text-slate-500 mt-1">Uploading audio: {audioProgress}%</p>
+                    </div>
+                  )}
+                </div>
+
                 <button
                   type="submit"
-                  disabled={saving}
+                  disabled={saving || uploading}
                   className="btn-primary w-full flex items-center justify-center gap-2"
                 >
-                  {saving
-                    ? <span className="animate-spin">⏳</span>
-                    : <PlusCircle size={16} />}
-                  {saving ? 'Saving…' : 'Add Word'}
+                  {uploading
+                    ? <><span className="animate-spin">⏳</span> Uploading files…</>
+                    : saving
+                    ? <><span className="animate-spin">⏳</span> Saving…</>
+                    : <><PlusCircle size={16} /> Add Word</>}
                 </button>
               </form>
             )}
