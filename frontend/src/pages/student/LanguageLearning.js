@@ -27,35 +27,36 @@ const WORD_MEDIA = {
 
 
   // Animals
-  'Cat': 'cat.mp4',
-  'Dog': 'dog.mp4',
-  'Bird': 'bird.mp4',
-  'Fish': 'fish.mp4',
-  'Cow': 'cow.mp4',
-  'Horse': 'horse.mp4',
-  'Elephant': 'elephant.mp4',
-  'Monkey': 'monkey.mp4',
-  'Rice' : 'rice.mp4',
+  // 'Cat': 'cat.mp4',
+  'Cat': 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/cat.mp4',
+  'Dog': 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/dog.mp4',
+  'Bird': 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/bird.mp4',
+  'Fish': 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/fish.mp4',
+  'Cow': 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/cow.mp4',
+  'Horse': 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/horse.mp4',
+  'Elephant': 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/elephant.mp4',
+  'Monkey': 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/monkey.mp4',
+  'Rice' : 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/rice.mp4',
 
   //food
 
-  'Bread' : 'bread.jpg',
-  'Milk' : 'milk.mp4',
-  'Water' : 'water.jpg',
-  'Apple' : 'apple.mp4',
-  'Banana' : 'banana.jpg',
-  'Egg' : 'egg.jpg',
-  'Sugar' : 'sugar.jpg',
+  'Bread' : 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/bread.jpg',
+  'Milk' : 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/milk.mp4',
+  'Water' : 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/water.jpg',
+  'Apple' : 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/apple.mp4',
+  'Banana' : 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/banana.jpg',
+  'Egg' : 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/egg.jpg',
+  'Sugar' : 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/sugar.jpg',
 
   //body parts
-  'Eye' : 'eye.jpg',
-  'Ear' : 'ear.jpg',
-  'Nose' : 'nose.jpg',
-  'Hand' : 'hand.jpg',
-  'Foot' : 'foot.jpg',
-  'Head' : 'head.jpg',
-  'Mouth' : 'mouth.jpg',
-  'Heart' : 'heart.jpg',
+  'Eye' : 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/eye.jpg',
+  'Ear' : 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/ear.jpg',
+  'Nose' : 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/nose.jpg',
+  'Hand' : 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/hand.jpg',
+  'Foot' : 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/foot.jpg',
+  'Head' : 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/head.jpg',
+  'Mouth' : 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/mouth.jpg',
+  'Heart' : 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/heart.jpg',
 
 
 
@@ -65,14 +66,14 @@ const WORD_MEDIA = {
 // Audio files for pronunciation (optional)
 const WORD_AUDIO = {
   // Example: 'Cat': 'Cat.mp3', 'Dog': 'Dog.mp3'
-  'Cat': 'cat.mp3',
-  'Dog': 'dog.mp3',
-  'Bird': 'pecock.mp3',
-  'Elephant': 'elephant.mp3',
-  'Fish': 'fish.mp3',
-  'Cow': 'cow.mp3',
-  'Horse': 'horse.mp3',
-  'Monkey': 'monkey.mp3', 
+  'Cat': 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/cat.mp3',
+  'Dog': 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/dog.mp3',
+  'Bird': 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/bird.mp3',
+  'Elephant': 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/elephant.mp3',
+  'Fish': 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/fish.mp3',
+  'Cow': 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/cow.mp3',
+  'Horse': 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/horse.mp3',
+  'Monkey': 'https://learnbuddy-resoures.s3.ap-south-1.amazonaws.com/vocabulary/monkey.mp3', 
 };
 
 /* ── Color definitions for visual display ───────────────────────── */
@@ -95,8 +96,8 @@ const ALPHABET_WORDS = {
   'D': 'Drink',
   'E': 'Eat',
   'F': 'Fly',
-  'G': 'Go',
-  'H': 'Hop',
+  'G': 'Gate',
+  'H': 'Horse',
   'I': 'In',
   'J': 'Jump',
   'K': 'Kick',
@@ -212,7 +213,7 @@ const VOCAB = {
   Food: [
     { en: 'Rice',   kn: 'ಅನ್ನ',      tul: 'ಅಕ್ಕಿ'   },
     { en: 'Bread',  kn: 'ರೊಟ್ಟಿ',    tul: 'ರೊಟ್ಟಿ'  },
-    { en: 'Milk',   kn: 'ಹಾಲು',      tul: 'ಪಾಲ್'    },
+    { en: 'Milk',   kn: 'ಹಾಲು',      tul: 'ಪಾಲು'    },
     { en: 'Water',  kn: 'ನೀರು',      tul: 'ನೀರ್'    },
     { en: 'Apple',  kn: 'ಸೇಬು',      tul: 'ಸೇಬು'    },
     { en: 'Banana', kn: 'ಬಾಳೆಹಣ್ಣು', tul: 'ಬಾಳೆ'    },
@@ -220,8 +221,8 @@ const VOCAB = {
     { en: 'Sugar',  kn: 'ಸಕ್ಕರೆ',    tul: 'ಸಕ್ಕರೆ'  },
   ],
   'Body Parts': [
-    { en: 'Eye',   kn: 'ಕಣ್ಣು', tul: 'ಕಣ್ಣ್' },
-    { en: 'Ear',   kn: 'ಕಿವಿ',  tul: 'ಕೆಬಿ'  },
+    { en: 'Eye',   kn: 'ಕಣ್ಣು', tul: 'ಕಣ್ಣು' },
+    { en: 'Ear',   kn: 'ಕಿವಿ',  tul: 'ಕಿವಿ' },
     { en: 'Nose',  kn: 'ಮೂಗು',  tul: 'ಮೂಗ್'  },
     { en: 'Hand',  kn: 'ಕೈ',    tul: 'ಕೈ'    },
     { en: 'Foot',  kn: 'ಕಾಲು',  tul: 'ಕಾಲ್'  },
@@ -602,7 +603,8 @@ const LanguageLearning = () => {
                     if (WORD_MEDIA[w.en]) {
                       return WORD_MEDIA[w.en].endsWith('.mp4') || WORD_MEDIA[w.en].endsWith('.webm') ? (
                         <video 
-                          src={require(`../../images/vocabulary/${WORD_MEDIA[w.en]}`)}
+                          // src={require(`../../images/vocabulary/${WORD_MEDIA[w.en]}`)}
+                          src={WORD_MEDIA[w.en]} // For Webpack, require is needed. For Vite or modern bundlers, direct import or URL is better.
                           autoPlay 
                           loop 
                           muted
@@ -611,7 +613,8 @@ const LanguageLearning = () => {
                         />
                       ) : (
                         <img 
-                          src={require(`../../images/vocabulary/${WORD_MEDIA[w.en]}`)}
+                          // src={require(`../../images/vocabulary/${WORD_MEDIA[w.en]}`)}
+                          src={WORD_MEDIA[w.en]} // For Webpack, require is needed. For Vite or modern bundlers, direct import or URL is better.
                           alt={w.en}
                           className="max-w-full max-h-72 rounded-2xl shadow-lg"
                           style={{ objectFit: 'contain' }}
@@ -707,7 +710,7 @@ const LanguageLearning = () => {
                   {(w.audio_url || WORD_AUDIO[w.en]) && (
                     <button
                       onClick={() => {
-                        const audioUrl = w.audio_url || (WORD_AUDIO[w.en] ? require(`../../images/vocabulary/${WORD_AUDIO[w.en]}`) : null);
+                        const audioUrl = w.audio_url || (WORD_AUDIO[w.en] || null);
                         if (audioUrl) handlePlaySound(audioUrl, `sound-${currentWordIndex}`);
                       }}
                       disabled={!!playing}

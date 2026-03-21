@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import DashboardLayout from '../../components/layout/DashboardLayout';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import { getMyPoints } from '../../api/student';
-import { Star, Zap, BarChart2, Trophy, TrendingUp, Award, Target, Flame, Calendar, Activity } from 'lucide-react';
+import { Star, Zap, BarChart2, Trophy, TrendingUp, Award, Target, Activity } from 'lucide-react';
 
 const ProgressBar = ({ value, max = 100, color = 'bg-brand-500', showLabel = false, label = '' }) => {
   const percentage = Math.min(100, Math.max(0, (value / max) * 100));

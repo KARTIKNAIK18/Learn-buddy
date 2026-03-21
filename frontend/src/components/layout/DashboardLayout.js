@@ -7,7 +7,7 @@ import Sidebar from '../common/Sidebar';
  */
 const DashboardLayout = ({ children }) => {
   return (
-    <div className="flex h-screen overflow-hidden bg-surface">
+    <div className="flex h-screen overflow-hidden" style={{ backgroundColor: 'var(--theme-bg)' }}>
       <Sidebar />
       <main className="flex-1 overflow-y-auto">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">

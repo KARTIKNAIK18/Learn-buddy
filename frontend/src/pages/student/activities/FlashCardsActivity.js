@@ -8,13 +8,13 @@ import { ArrowLeft, ChevronLeft, ChevronRight, Shuffle, Volume2, RotateCcw } fro
 import ConfettiEffect from '../../../components/common/ConfettiEffect';
 
 const CARDS = [
-  { word: 'Apple',    emoji: '🍎', meaning: 'A round fruit, red or green',          sentence: 'I eat an apple every day.'          },
-  { word: 'Book',     emoji: '📚', meaning: 'Pages full of words to read',           sentence: 'She reads a book at night.'         },
-  { word: 'Cat',      emoji: '🐱', meaning: 'A soft furry animal that says meow',    sentence: 'The cat sat on the mat.'            },
-  { word: 'Dog',      emoji: '🐶', meaning: 'A friendly animal that barks',          sentence: 'My dog likes to run and play.'      },
-  { word: 'Sun',      emoji: '☀️', meaning: 'The bright star that lights our sky',   sentence: 'The sun comes up every morning.'    },
-  { word: 'Rain',     emoji: '🌧️', meaning: 'Water drops falling from clouds',      sentence: 'Plants need rain to grow.'          },
-  { word: 'Tree',     emoji: '🌳', meaning: 'A tall plant with a trunk and leaves',  sentence: 'Birds build nests in trees.'        },
+  { word: 'Apple',    emoji: 'https://i.pinimg.com/originals/32/6d/6e/326d6eaf6c633c0d41c8e3cf1f4c927d.gif', meaning: 'A round fruit, red or green',          sentence: 'I eat an apple every day.'          },
+  { word: 'Book',     emoji: 'https://cdn.dribbble.com/userupload/19646652/file/original-b84277d6110f0722a534324ac2c977a8.gif', meaning: 'Pages full of words to read',           sentence: 'She reads a book at night.'         },
+  { word: 'Cat',      emoji: 'https://i.pinimg.com/originals/a6/1d/e1/a61de12663904e43b4a677d200e894e5.gif', meaning: 'A soft furry animal that says meow',    sentence: 'The cat sat on the mat.'            },
+  { word: 'Dog',      emoji: 'https://mir-s3-cdn-cf.behance.net/project_modules/disp/08ab7226885953.5635dd02cd8d4.gif', meaning: 'A friendly animal that barks',          sentence: 'My dog likes to run and play.'      },
+  { word: 'Sun',      emoji: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqsHR6s7hdY0tyUxRAPUPYqRr_eR3giLKqNA&s', meaning: 'The bright star that lights our sky',   sentence: 'The sun comes up every morning.'    },
+  { word: 'Rain',     emoji: 'https://i.pinimg.com/originals/36/6f/fd/366ffdc50a42bcd1055c1c18f5f56bad.gif', meaning: 'Water drops falling from clouds',      sentence: 'Plants need rain to grow.'          },
+  { word: 'Tree',     emoji: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWN9Gw3yKj3nlIgYOz4UbNXMSi90bvNYRerg&s', meaning: 'A tall plant with a trunk and leaves',  sentence: 'Birds build nests in trees.'        },
   { word: 'Fish',     emoji: '🐟', meaning: 'An animal that swims in water',         sentence: 'The fish swims in the pond.'        },
   { word: 'Star',     emoji: '⭐', meaning: 'A glowing light in the night sky',      sentence: 'I count the stars at night.'        },
   { word: 'House',    emoji: '🏠', meaning: 'A building where people live',          sentence: 'My house has a big garden.'         },
@@ -107,13 +107,25 @@ const FlashCardsActivity = () => {
         >
           {!flipped ? (
             <>
-              <span className="text-8xl leading-none">{card.emoji}</span>
+              {/* <span className="text-8xl leading-none">{card.emoji}</span>
               <p className="text-5xl font-bold text-slate-800 tracking-wide">{card.word}</p>
-              <span className="text-xs text-slate-400 bg-slate-100 px-3 py-1 rounded-full">Tap to see meaning →</span>
+              <span className="text-xs text-slate-400 bg-slate-100 px-3 py-1 rounded-full">Tap to see meaning →</span> */}
+            
+              {card.emoji && card.emoji.startsWith('http') ? (
+              <img src={card.emoji} alt={card.word} style={{ height: '18rem',width: '24rem', objectFit: 'contain' }} className="mx-auto"/>
+              ) : (
+                <span className="text-8xl leading-none">{card.emoji}</span>
+                
+              )}
+              <p className="text-5xl font-bold text-slate-800 tracking-wide">{card.word}</p>
+              <span className="text-xs text-slate-400 bg-slate-100 px-3 py-1 rounded-full">
+                Tap to see meaning →
+  </span>
             </>
           ) : (
             <>
-              <span className="text-5xl">{card.emoji}</span>
+              <img src={card.emoji} alt={card.word} style={{ height: '18rem',width: '24rem', objectFit: 'contain' }} className="mx-auto"/>
+              {/* <span className="text-5xl">{card.emoji}</span> */}
               <p className="text-xl font-bold text-brand-700 text-center leading-snug">{card.meaning}</p>
               <div className="bg-white border border-brand-100 rounded-2xl px-5 py-3 mt-1">
                 <p className="text-sm text-slate-600 italic text-center">"{card.sentence}"</p>

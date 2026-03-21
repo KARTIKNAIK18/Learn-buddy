@@ -1,0 +1,36 @@
+# Byte-compiled files
+__pycache__/
+*.pyc
+*.pyd
+*.pyo
+*.egg-info/
+.eggs/
+
+# Virtual environment
+venv/
+.cleenv
+.venv/
+# You can also use a pattern like:
+# /my_env_name/
+
+# IDE-specific files (customize as needed)
+.idea/ # For PyCharm/IntelliJ
+.vscode/ # For VS Code
+*.swp # For Vim
+
+# Built artifacts
+dist/
+build/
+*.whl
+*.egg
+
+# Testing and documentation
+.pytest_cache/
+htmlcov/
+.tox/
+.venv
+.env
+# OS-specific files
+.DS_Store # macOS
+Thumbs.db # Windows
+alembic/

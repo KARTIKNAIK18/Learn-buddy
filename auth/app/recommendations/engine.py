@@ -106,7 +106,7 @@ class RecommendationEngine:
                                  if diff == predicted_difficulty and a not in recent_activities[:3]]
             if suitable_activities:
                 activity = suitable_activities[0]
-                reason = f'🤖 ML suggests level {predicted_difficulty} (velocity: {learning_velocity:.1f})'
+                reason = f' Bot suggests level {predicted_difficulty} (velocity: {learning_velocity:.1f})'
                 recommendations.append({
                     'activity': activity,
                     'reason': reason,
@@ -259,7 +259,7 @@ class RecommendationEngine:
                 activity = harder_activities[0]
                 return {
                     'activity': activity,
-                    'reason': f'🎯 You\'re doing great! Try this challenge (avg score: {int(avg_points)}/10)',
+                    'reason': f' You\'re doing great! Try this challenge (avg score: {int(avg_points)}/10)',
                     'priority': 'high'
                 }
         
@@ -274,7 +274,7 @@ class RecommendationEngine:
                     activity = same_level[0]
                     return {
                         'activity': activity,
-                        'reason': f'📚 Keep practicing at this level (avg score: {int(avg_points)}/10)',
+                        'reason': f' Keep practicing at this level (avg score: {int(avg_points)}/10)',
                         'priority': 'medium'
                     }
         
@@ -286,7 +286,7 @@ class RecommendationEngine:
                 activity = easier_activities[0]
                 return {
                     'activity': activity,
-                    'reason': f'💪 Let\'s build confidence with this (avg score: {int(avg_points)}/10)',
+                    'reason': f' Let\'s build confidence with this (avg score: {int(avg_points)}/10)',
                     'priority': 'high'
                 }
         
@@ -301,7 +301,7 @@ class RecommendationEngine:
             activity = not_recent[0]
             return {
                 'activity': activity,
-                'reason': '🌟 Try something new - variety keeps learning fun!',
+                'reason': ' Try something new - variety keeps learning fun!',
                 'priority': 'medium'
             }
         return None
@@ -322,7 +322,7 @@ class RecommendationEngine:
                 activity = self._normalize_activity_name(good_activities[0].activity_name)
                 return {
                     'activity': activity,
-                    'reason': f'🔄 Review time! You did well on this {int(hours_since//24)} days ago',
+                    'reason': f' Review time! You did well on this {int(hours_since//24)} days ago',
                     'priority': 'low'
                 }
         return None

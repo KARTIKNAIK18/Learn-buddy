@@ -6,7 +6,7 @@ import { addVocabWord, getMyVocabWords, deleteVocabWord } from '../../api/teache
 import { uploadToCloudinary } from '../../api/cloudinary';
 import {
   Languages, PlusCircle, Trash2, BookOpen, Globe,
-  CheckCircle2, AlertCircle, ChevronDown, ChevronUp, Upload, Image, Volume2,
+  CheckCircle2, AlertCircle, ChevronDown, ChevronUp, Image, Volume2,
 } from 'lucide-react';
 
 const DEFAULT_CATEGORIES = [

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import DashboardLayout from '../../components/layout/DashboardLayout';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
-import ReadAloudButton from '../../components/accessibility/ReadAloudButton';
 import { getMyClassrooms, getMyContent } from '../../api/student';
 import { Video, FileText, HelpCircle, Link2, PenLine, List, Inbox } from 'lucide-react';
 
@@ -149,7 +148,6 @@ const LearningContent = () => {
                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${meta.color}`}>
                     <meta.Icon size={24} />
                   </div>
-                  <ReadAloudButton text={`${c.title}. ${c.description || ''}`} />
                 </div>
                 <h3 className="font-semibold text-slate-900 mb-1 line-clamp-2 group-hover:text-brand-600 transition-colors">{c.title}</h3>
                 {c.description && (

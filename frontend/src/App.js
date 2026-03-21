@@ -46,6 +46,8 @@ import OddOneOutActivity        from './pages/student/activities/OddOneOutActivi
 import LanguageLearning         from './pages/student/LanguageLearning';
 import WritingHelper            from './pages/student/WritingHelper';
 import MyProgress               from './pages/student/MyProgress';
+import VideoTraining            from './pages/student/VideoTraining';
+
 
 // Roles returned by backend (exact lowercase strings)
 const T = ['teacher'];
@@ -104,6 +106,7 @@ function App() {
           <Route path="/student/language"      element={protect(S, <StudentLayout><LanguageLearning /></StudentLayout>)} />
           <Route path="/student/writing"       element={protect(S, <StudentLayout><WritingHelper /></StudentLayout>)} />
           <Route path="/student/progress"      element={protect(S, <StudentLayout><MyProgress /></StudentLayout>)} />
+          <Route path="/student/video-training" element={protect(S, <StudentLayout><VideoTraining /></StudentLayout>)} />
 
           {/* ─── Fallback ─────────────────────────────────────────────── */}
           <Route path="*" element={<Navigate to="/login" replace />} />

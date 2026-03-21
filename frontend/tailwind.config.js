@@ -14,7 +14,7 @@ module.exports = {
           300: '#a5b4fc',
           400: '#818cf8',
           500: '#6366f1',
-          600: '#4f46e5',
+          600: 'var(--theme-primary)',
           700: '#4338ca',
           800: '#3730a3',
           900: '#312e81',
@@ -23,11 +23,17 @@ module.exports = {
           800: '#0f172a',
           900: '#060b18',
         },
-        surface: '#f8fafc',
+        surface: 'var(--theme-card-bg)',
+        // Add theme-aware colors
+        'theme-bg': 'var(--theme-bg)',
+        'theme-card': 'var(--theme-card-bg)',
+        'theme-text': 'var(--theme-text)',
+        'theme-primary': 'var(--theme-primary)',
       },
       fontFamily: {
         // Lexend: designed specifically to reduce visual stress and improve reading proficiency
         sans: ['Lexend', 'ui-sans-serif', 'system-ui'],
+        atkinson: ['Atkinson Hyperlegible', 'sans-serif'],
       },
       letterSpacing: {
         reading: '0.02em',

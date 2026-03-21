@@ -18,8 +18,10 @@ def get_recommendations(
     
     engine = RecommendationEngine(db, current_user["id"])
     recommendations = engine.get_recommendations(count=3)
+    module_recommendations = engine.get_module_recommendations()
     
     return {
         "success": True,
-        "recommendations": recommendations
+        "recommendations": recommendations,
+        "module_recommendations": module_recommendations
     }

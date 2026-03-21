@@ -15,7 +15,12 @@ const useTTS = (lang = 'en-IN', rate = 1.0) => {
   useEffect(() => () => { window.speechSynthesis?.cancel(); }, []);
 
   const speak = useCallback((text) => {
-    if (!window.speechSynthesis) return;
+    if (!window.speechSynthesis) {
+      console.error('Speech Synthesis not supported in this browser');
+      alert('Text-to-speech is not supported in your browser. Please try Chrome, Edge, or Safari.');
+      return;
+    }
+    
     window.speechSynthesis.cancel();
 
     const utterance = new SpeechSynthesisUtterance(text);
@@ -26,7 +31,16 @@ const useTTS = (lang = 'en-IN', rate = 1.0) => {
 
     utterance.onstart    = ()  => setIsSpeaking(true);
     utterance.onend      = ()  => { setIsSpeaking(false); setWordStart(-1); };
-    utterance.onerror    = ()  => { setIsSpeaking(false); setWordStart(-1); };
+    utterance.onerror    = (e) => { 
+      console.error('TTS Error:', e);
+      setIsSpeaking(false); 
+      setWordStart(-1);
+      if (e.error === 'not-allowed') {
+        alert('Please allow audio permissions in your browser settings.');
+      } else if (e.error === 'network') {
+        alert('Network error: Please check your internet connection.');
+      }
+    };
     utterance.onboundary = (e) => {
       if (e.name === 'word') {
         setWordStart(e.charIndex);
@@ -35,7 +49,14 @@ const useTTS = (lang = 'en-IN', rate = 1.0) => {
     };
 
     utteranceRef.current = utterance;
-    window.speechSynthesis.speak(utterance);
+    
+    try {
+      window.speechSynthesis.speak(utterance);
+    } catch (err) {
+      console.error('Failed to speak:', err);
+      setIsSpeaking(false);
+      alert('Failed to start text-to-speech. Please try again.');
+    }
   }, [lang, rate]);
 
   const stop   = useCallback(() => { window.speechSynthesis?.cancel(); setIsSpeaking(false); setWordStart(-1); }, []);

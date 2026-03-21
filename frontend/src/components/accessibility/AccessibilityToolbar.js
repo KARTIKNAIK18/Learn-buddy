@@ -1,35 +1,10 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { useAccessibility } from '../../context/AccessibilityContext';
-import useTTS from '../../hooks/useTTS';
 import {
   Accessibility, X, Type, AlignLeft, Palette, Focus,
-  Volume2, VolumeX, RotateCcw, ZoomIn,
+  RotateCcw, ZoomIn,
 } from 'lucide-react';
 
-/* ── Color swatches ────────────────────────────────────────── */
-const BG_SWATCHES = [
-  { key: 'none',     bg: '#ffffff', border: '#e2e8f0', label: 'None'     },
-  { key: 'cream',    bg: '#FFF8E7', border: '#f59e0b', label: 'Cream'    },
-  { key: 'yellow',   bg: '#FFFBCC', border: '#eab308', label: 'Yellow'   },
-  { key: 'blue',     bg: '#E8F4FD', border: '#3b82f6', label: 'Blue'     },
-  { key: 'green',    bg: '#EDFBF0', border: '#22c55e', label: 'Green'    },
-  { key: 'lavender', bg: '#F3EFFE', border: '#8b5cf6', label: 'Lavender' },
-];
-
-/* ── TTS languages ─────────────────────────────────────────── */
-const TTS_LANGS = [
-  { code: 'en-IN', label: 'English (India)' },
-  { code: 'hi-IN', label: 'हिंदी'            },
-  { code: 'ta-IN', label: 'தமிழ்'            },
-  { code: 'te-IN', label: 'తెలుగు'            },
-  { code: 'kn-IN', label: 'ಕನ್ನಡ'             },
-  { code: 'ml-IN', label: 'മലയാളം'           },
-  { code: 'bn-IN', label: 'বাংলা'             },
-  { code: 'mr-IN', label: 'मराठी'             },
-  { code: 'gu-IN', label: 'ગુજરાતી'           },
-];
-
-/* ── Small helpers ─────────────────────────────────────────── */
 const Section = ({ icon, title, children }) => (
   <div className="space-y-2.5">
     <div className="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
@@ -94,15 +69,8 @@ const LineFocusRuler = () => {
 
 /* ── Main toolbar ──────────────────────────────────────────── */
 const AccessibilityToolbar = () => {
-  const { settings, update, resetAll } = useAccessibility();
-  const [open, setOpen]          = useState(false);
-
-  const tts = useTTS(settings.ttsLang, settings.ttsSpeed);
-
-  const toggleTTSDemo = useCallback(() => {
-    if (tts.isSpeaking) tts.stop();
-    else tts.speak('Text to speech is working. Accessibility features are ready.');
-  }, [tts]);
+  const { settings, update, resetAll, THEMES } = useAccessibility();
+  const [open, setOpen] = useState(false);
 
   return (
     <>
@@ -149,6 +117,27 @@ const AccessibilityToolbar = () => {
                     </button>
                   ))}
                 </div>
+              {/* </Section>
+              <Section icon={<Type size={11} />} title="Font"> */}
+                <div className="flex gap-2">
+                  {[ 
+                     { id: 'lexend', label: 'Lexend', style: { fontFamily: "'Lexend', sans-serif" } },
+                     { id: 'atkinson', label: 'Atkinson Hyperlegible', style: { fontFamily: "'Atkinson Hyperlegible', sans-serif" } },
+                  ].map(({ id, label, style }) => (
+                    <button
+                      key={id}
+                      onClick={() => update('font', id)}
+                      style={style}
+                      className={`flex-1 py-2 rounded-xl text-xs font-semibold border-2 transition-all ${
+                        settings.font === id
+                          ? 'border-brand-500 bg-brand-50 text-brand-700'
+                          : 'border-slate-200 bg-white text-slate-500 hover:border-brand-300'
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
               </Section>
 
               {/* ── Font Size ── */}
@@ -179,22 +168,63 @@ const AccessibilityToolbar = () => {
                 />
               </Section>
 
-              {/* ── Color Overlay ── */}
-              <Section icon={<Palette size={11} />} title="Color Overlay">
-                <div className="flex gap-2.5 flex-wrap">
-                  {BG_SWATCHES.map(({ key, bg, border, label }) => (
+              {/* ── Theme Colors ── */}
+              <Section icon={<Palette size={11} />} title="Theme Colors">
+                <div className="space-y-2">
+                  {Object.entries(THEMES).map(([key, theme]) => (
                     <button
                       key={key}
-                      onClick={() => update('bgTint', key)}
-                      title={label}
-                      className="w-8 h-8 rounded-full flex-shrink-0 transition-transform"
+                      onClick={() => update('theme', key)}
+                      className="w-full text-left rounded-xl p-3 transition-all relative overflow-hidden group"
                       style={{
-                        background: bg,
-                        border: `3px solid ${settings.bgTint === key ? border : '#e2e8f0'}`,
-                        transform: settings.bgTint === key ? 'scale(1.25)' : 'scale(1)',
-                        boxShadow: settings.bgTint === key ? `0 0 0 2px white, 0 0 0 4px ${border}` : 'none',
+                        backgroundColor: theme.bg,
+                        border: `2px solid ${settings.theme === key ? theme.primary : 'transparent'}`,
+                        boxShadow: settings.theme === key 
+                          ? `0 0 0 3px ${theme.primary}20` 
+                          : 'none',
                       }}
-                    />
+                    >
+                      <div className="flex items-center gap-3">
+                        {/* Color preview square */}
+                        <div 
+                          className="w-10 h-10 rounded-lg flex-shrink-0 shadow-sm relative"
+                          style={{
+                            background: `linear-gradient(135deg, ${theme.bg} 0%, ${theme.cardBg} 50%, ${theme.primary} 100%)`,
+                            border: `2px solid ${theme.primary}`,
+                          }}
+                        >
+                          {settings.theme === key && (
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div 
+                                className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shadow-md"
+                                style={{ 
+                                  backgroundColor: theme.primary,
+                                  color: theme.bg
+                                }}
+                              >
+                                ✓
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                        
+                        {/* Text content */}
+                        <div className="flex-1 min-w-0">
+                          <div 
+                            className="text-sm font-semibold mb-0.5"
+                            style={{ color: theme.text }}
+                          >
+                            {theme.name}
+                          </div>
+                          <div 
+                            className="text-[10px] leading-snug"
+                            style={{ color: theme.text, opacity: 0.7 }}
+                          >
+                            {theme.desc}
+                          </div>
+                        </div>
+                      </div>
+                    </button>
                   ))}
                 </div>
               </Section>
@@ -208,58 +238,12 @@ const AccessibilityToolbar = () => {
                 />
               </Section>
 
-              {/* ── TTS ── */}
-              <Section icon={<Volume2 size={11} />} title="Text to Speech">
-                <RowToggle
-                  label={settings.ttsEnabled ? 'On — click any Read Aloud button' : 'Off'}
-                  checked={settings.ttsEnabled}
-                  onChange={(v) => update('ttsEnabled', v)}
-                />
-                {settings.ttsEnabled && (
-                  <div className="space-y-3 pt-1">
-                    {/* Speed */}
-                    <div>
-                      <p className="text-[10px] text-slate-500 mb-1">Speed: {settings.ttsSpeed}×</p>
-                      <Slider
-                        value={settings.ttsSpeed} min={0.5} max={2} step={0.25}
-                        onChange={(v) => update('ttsSpeed', v)}
-                        leftLabel="0.5×" rightLabel="2×"
-                      />
-                    </div>
-                    {/* TTS Language */}
-                    <div>
-                      <p className="text-[10px] text-slate-500 mb-1">TTS Language</p>
-                      <select
-                        value={settings.ttsLang}
-                        onChange={(e) => update('ttsLang', e.target.value)}
-                        className="w-full text-xs border border-slate-200 rounded-lg px-2 py-1.5 bg-white text-slate-700 focus:border-brand-400 focus:outline-none"
-                      >
-                        {TTS_LANGS.map((l) => (
-                          <option key={l.code} value={l.code}>{l.label}</option>
-                        ))}
-                      </select>
-                    </div>
-                    {/* Demo button */}
-                    <button
-                      onClick={toggleTTSDemo}
-                      className={`w-full flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-semibold transition-all ${
-                        tts.isSpeaking
-                          ? 'bg-red-100 text-red-600 border border-red-200'
-                          : 'bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-100'
-                      }`}
-                    >
-                      {tts.isSpeaking
-                        ? <><VolumeX size={13} /> Stop</>
-                        : <><Volume2 size={13} /> Read Aloud (demo)</>
-                      }
-                    </button>
-                  </div>
-                )}
-              </Section>
-
               {/* ── Reset ── */}
               <button
-                onClick={resetAll}
+                onClick={() => {
+                  console.log('🔘 Reset button clicked');
+                  resetAll();
+                }}
                 className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200 transition-colors"
               >
                 <RotateCcw size={13} />

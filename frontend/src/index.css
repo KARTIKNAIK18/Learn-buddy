@@ -11,14 +11,23 @@
   font-display: swap;
 }
 
+
+
+
 /* ── Accessibility CSS variables (controlled by AccessibilityContext) ── */
 :root {
-  --a11y-font:           'Lexend', 'ui-sans-serif', 'system-ui', sans-serif;
+  /* --a11y-font:           'Lexend', 'ui-sans-serif', 'system-ui', sans-serif; */
+  --a11y-font: 'Atkinson Hyperlegible', 'Lexend', 'OpenDyslexic', 'ui-sans-serif', 'system-ui', sans-serif;
   --a11y-font-size:      1.0625rem;
   --a11y-letter-spacing: 0.01em;
   --a11y-word-spacing:   4px;
   --a11y-line-height:    1.9;
-  --a11y-bg:             transparent;
+  
+  /* Theme colors (updated dynamically) */
+  --theme-bg:        #e9edf5;
+  --theme-card-bg:   #ffffff;
+  --theme-text:      #1e293b;
+  --theme-primary:   #6366f1;
 }
 
 @layer base {
@@ -27,13 +36,14 @@
   /* ── Dyslexia-friendly base typography ────────────────── */
   body {
     font-family: var(--a11y-font);
-    background-color: #e9edf5;
-    color: #1e293b;
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
     -webkit-font-smoothing: antialiased;
     font-size: var(--a11y-font-size);
     line-height: var(--a11y-line-height);
     letter-spacing: var(--a11y-letter-spacing);
     word-spacing: var(--a11y-word-spacing);
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   /* Left-align everything — justified text is harder for dyslexic readers */
@@ -88,18 +98,21 @@
 
   /* ── Inputs — larger text & padding, clear focus ring ── */
   .input {
-    @apply w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-base
+    @apply w-full rounded-xl border-2 border-slate-200 px-4 py-3 text-base
            text-slate-900 placeholder-slate-400 shadow-sm
            focus:border-brand-500 focus:ring-2 focus:ring-brand-100 focus:outline-none
            transition-all duration-200;
+    background-color: var(--theme-card-bg);
   }
   .input-label { @apply block text-base font-semibold text-slate-700 mb-1.5; }
 
   /* ── Cards ───────────────────────────────────────────── */
   .card {
-    @apply bg-white/80 rounded-2xl border border-slate-200/70 p-6;
+    background-color: var(--theme-card-bg);
+    @apply rounded-2xl border border-slate-200/70 p-6;
     box-shadow: 0 2px 10px rgba(15,23,42,0.08), 0 1px 3px rgba(15,23,42,0.05);
     backdrop-filter: blur(2px);
+    transition: background-color 0.3s ease;
   }
   .card-hover {
     @apply card cursor-pointer;
@@ -108,7 +121,18 @@
   .card-hover:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 28px rgba(15,23,42,0.13);
-    background-color: rgba(255,255,255,0.95);
+  }
+  
+  /* ── Theme utilities - use these for theme-aware styling ── */
+  .theme-bg {
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
+  }
+  .theme-card-bg {
+    background-color: var(--theme-card-bg);
+  }
+  .theme-text {
+    color: var(--theme-text);
   }
 
   /* ── Typography ──────────────────────────────────────── */
@@ -158,6 +182,14 @@
   .animate-float-slow { animation: lb-float    7s ease-in-out infinite; }
   .animate-pulse-soft { animation: lb-pulse-soft 3s ease-in-out infinite; }
   .animate-shimmer    { animation: lb-shimmer 2s ease-in-out infinite; }
+}
+
+/* ── Theme overrides (outside @layer for higher specificity) ── */
+/* Override white backgrounds with theme colors for content areas */
+#root div.bg-white:not(.accessibility-panel):not(button):not(.btn),
+#root div[class*="bg-white/80"]:not(.accessibility-panel),
+#root div[class*="bg-white rounded"] {
+  background-color: var(--theme-card-bg) !important;
 }
 
 /* ── Confetti celebration ───────────────────────────────────── */

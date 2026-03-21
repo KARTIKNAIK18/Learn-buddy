@@ -28,6 +28,7 @@ const STUDENT_NAV = [
   { to: '/student/classroom',  label: 'My Classroom',     Icon: School           },
   { to: '/student/content',    label: 'Learning Content', Icon: BookMarked       },
   { to: '/student/activities', label: 'Activities',       Icon: Gamepad2         },
+  { to: '/student/video-training', label: 'Video Training',   Icon: BookOpenText },
   { to: '/student/reading',    label: 'Reading Space',    Icon: BookOpenText     },
   { to: '/student/language',   label: 'Language Learning',Icon: Globe            },
   { to: '/student/writing',    label: 'Writing Helper',   Icon: PenLine          },

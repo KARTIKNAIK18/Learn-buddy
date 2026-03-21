@@ -140,10 +140,10 @@ const LearningActivities = () => {
         </p>
       </div>
 
-      <div className="my-5 p-4 bg-indigo-50/80 border border-indigo-200 rounded-2xl text-sm text-indigo-700">
+      {/* <div className="my-5 p-4 bg-indigo-50/80 border border-indigo-200 rounded-2xl text-sm text-indigo-700">
         <span className="font-bold">Tip:</span> Every activity has a <strong>Hear it</strong> button that reads words aloud for you.
         Change reading speed and language from the <strong>Accessibility</strong> button at the bottom-right corner.
-      </div>
+      </div> */}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {ACTIVITIES.map((act) => {

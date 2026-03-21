@@ -3,22 +3,22 @@ import { useNavigate } from 'react-router-dom';
 import { getRecommendations } from '../../api/recommendations';
 import { Sparkles, Loader2, ArrowRight, Trophy, Star, Zap } from 'lucide-react';
 
+const praises = [
+  " You're doing amazing! Keep up the great work!",
+  " Fantastic progress! Ready for more fun?",
+  " You're a learning superstar! Let's continue!",
+  " Wow! You're learning so fast!",
+  " Keep shining bright! More adventures await!",
+  " You're crushing it! Time for the next challenge!",
+  " Incredible work! Let's keep the momentum going!",
+  " You're on fire! Ready for more excitement?",
+];
+
 const RecommendedActivities = () => {
   const navigate = useNavigate();
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [praise, setPraise] = useState('');
-
-  const praises = [
-    "🌟 You're doing amazing! Keep up the great work!",
-    "🎉 Fantastic progress! Ready for more fun?",
-    "💪 You're a learning superstar! Let's continue!",
-    "🚀 Wow! You're learning so fast!",
-    "⭐ Keep shining bright! More adventures await!",
-    "🏆 You're crushing it! Time for the next challenge!",
-    "✨ Incredible work! Let's keep the momentum going!",
-    "🎯 You're on fire! Ready for more excitement?",
-  ];
 
   useEffect(() => {
     // Pick a random praise
