@@ -12,16 +12,17 @@ def get_recommendations(
     current_user: dict = Depends(user),
     db: Session = Depends(get_db)
 ):
-    """Get personalized activity recommendations for current student"""
-    if current_user["role"] != "student":
-        return {"success": False, "error": "Only students can get recommendations"}
-    
-    engine = RecommendationEngine(db, current_user["id"])
-    recommendations = engine.get_recommendations(count=3)
-    module_recommendations = engine.get_module_recommendations()
-    
-    return {
-        "success": True,
-        "recommendations": recommendations,
-        "module_recommendations": module_recommendations
-    }
+    try:
+        if current_user["role"] != "student":
+            return {"success": False, "error": "Only students can get recommendations"}
+        
+        engine = RecommendationEngine(db, current_user["id"])
+        recommendations = engine.get_recommendations(count=3)
+
+        return {
+            "success": True,
+            "recommendations": recommendations,
+        }
+
+    except Exception as e:
+        return {"success": False, "error": str(e)}
